@@ -7,8 +7,6 @@ const {User} = require('./../../models/user');
 const user1Id = new ObjectID().toHexString();
 const user2Id = new ObjectID().toHexString();
 
-
-
 const users = [{
     _id: user1Id,
     email: 'RyanD@test.com',
@@ -20,17 +18,23 @@ const users = [{
 }, {
     _id: user2Id,
     email: 'test2@example.com',
-    password: 'user2password'
+    password: 'user2password',
+    tokens: [{
+        access: 'auth',
+        token: jwt.sign({_id:user2Id,access:'auth'}, 'abc123').toString()
+    }]
 }]
 
 const todos = [{
     _id: new ObjectID(),
-    text: 'new todo 1'
+    text: 'new todo 1',
+    _creator: user1Id
 }, {
     _id: new ObjectID(),
     text: 'new todo 2',
     complete: true,
-    completeAt: 336728
+    completeAt: 336728,
+    _creator: user2Id
 }];
 
 const populateTodos = (done) => {
